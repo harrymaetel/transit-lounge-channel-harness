@@ -1,0 +1,7 @@
+# Transit Lines
+
+기준 흐름: 표지 → 원문 한 문장 → 성찰 질문 → 저장·공유 CTA. 기준 장수는 제한이 아니다.
+
+원문은 Bold 문장과 하단 출처로 분리한다. Reflection은 제목·독자 질문·보조다. 원문 36자/3줄을 넘으면 페이지를 추가한다. 현재 예시에 붙은 인물명만으로 실제 인용임을 확정하지 않는다.
+
+references/page-patterns.md의 해당 카테고리 관찰값과 references/pattern-catalog.json의 슬롯별 운영 상한을 적용한다. Neulis Alt와 제목→주요 내용→보조 위계를 유지한다.

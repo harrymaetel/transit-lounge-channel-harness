@@ -1,0 +1,7 @@
+# Transit Event
+
+기준 흐름: 표지 → 행사 맥락 → 일시·장소·가격 → 추천 대상 → 프로그램 → 신청 CTA. 기준 장수는 제한이 아니다.
+
+추천 대상은 audience-cards의 둥근 카드, 프로그램은 program-steps의 번호 카드다. 항목당 20자/1줄, 3개 초과는 추가 페이지로 분할한다. 날짜·요일·시간·가격·포함 항목은 출처와 대조한다.
+
+references/page-patterns.md의 해당 카테고리 관찰값과 references/pattern-catalog.json의 슬롯별 운영 상한을 적용한다. Neulis Alt와 제목→주요 내용→보조 위계를 유지한다.

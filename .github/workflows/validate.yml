@@ -1,0 +1,18 @@
+name: Harness validation
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python regression tests
+        run: python3 -m unittest discover -s harness/tests -v
+      - name: Native Figma helper regression tests
+        run: node --test harness/tests/figma_helpers.test.js
+      - name: Agent cards and draft contracts
+        run: |
+          python3 harness/scripts/harness.py validate-cards
+          python3 harness/scripts/harness.py validate --job harness/examples/event-job.json
+          python3 harness/scripts/harness.py validate --job harness/examples/playlist-job.json

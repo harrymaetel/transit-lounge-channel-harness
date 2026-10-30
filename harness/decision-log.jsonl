@@ -1,0 +1,5 @@
+{"id":"2026-10-30-font","status":"H","target":"typography","choice":"Neulis Alt 유지·임의 치환 금지","why":"사용자가 복원 후 향후 제작에도 유지하도록 명시"}
+{"id":"2026-10-30-layout","status":"H","target":"page-patterns","choice":"제목·본문·보조 분리 및 대상·프로그램·음원 구조화","why":"사용자 수정 Figma와 현재 요청 반영"}
+{"id":"2026-10-30-budget","status":"P","target":"copy-budgets","choice":"관찰 글자 수와 운영 상한을 분리하고 렌더로 검증","why":"글자 수만으로 실제 수용량을 확정할 수 없어 초기 예산 정의"}
+{"id":"2026-10-31-render","status":"H","target":"render-qa","choice":"실측 높이·숨김·헤더·캔버스·사진 대비를 검수 게이트로 반영","why":"33장 예시 제작의 수정 사항을 다음 제작 규칙에 반영하라는 사용자 지시"}
+{"id":"2026-10-31-font","status":"H","target":"font-workflow","choice":"Neulis Alt 실제 로드 및 데스크톱 제작 경로 기록","why":"대체 서체 없이 제작한 결과와 재발 방지 요청 반영"}

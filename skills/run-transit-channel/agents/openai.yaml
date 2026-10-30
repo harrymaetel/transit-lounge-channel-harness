@@ -1,0 +1,5 @@
+interface:
+  display_name: "트랜짓 라운지 채널 운영"
+  short_description: "트랜짓 라운지 채널 콘텐츠를 일관되게 운영합니다"
+  default_prompt: "트랜짓 라운지 채널 콘텐츠를 운영 파이프라인에 맞춰 제작해 주세요."
+
