@@ -15,6 +15,8 @@ Use this skill for Transit Lounge channel planning, copy, design, QA, publishing
 6. Apply `humanize-korean` to final Korean copy without changing facts, numbers, names, quotations, or intent.
 7. Before handoff, run `validate` and `check-ready`. Never treat `ready` as authorization to publish or modify an external account.
 
+On a new workstation, follow the [font setup workflow](../../harness/references/font-workflow.md). Run the read-only check on the target workstation and offer opt-in setup for missing styles.
+
 Keep Neulis Alt, including Regular/Medium/Bold roles. Check the execution environment before editing text; if the connector cannot load it, use Figma desktop. Never substitute Pretendard or another family automatically. Follow `../../harness/references/font-workflow.md`.
 
 For each page, separate the content title, main content and supporting copy. Keep the brand header and logo distinct. Audience pills, numbered program pills and album-art track rows are structured elements, never a multiline paragraph. Load `../../harness/references/page-patterns.md` and the selected category rule; exact operational limits and element contracts come from `../../harness/references/pattern-catalog.json`. Read `../../harness/references/element-patterns.md` when using repeated elements. The 2026-10-30 observed layouts and still-unconverted legacy examples are distinguished in the pattern guide.

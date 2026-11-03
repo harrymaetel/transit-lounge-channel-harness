@@ -16,3 +16,19 @@ jobs:
           python3 harness/scripts/harness.py validate-cards
           python3 harness/scripts/harness.py validate --job harness/examples/event-job.json
           python3 harness/scripts/harness.py validate --job harness/examples/playlist-job.json
+  font-setup:
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Read native font catalog without installing fonts
+        shell: python
+        run: |
+          import subprocess, sys
+          result = subprocess.run([sys.executable, "harness/scripts/setup_fonts.py", "--check"])
+          assert result.returncode in (0, 1), result.returncode

@@ -16,6 +16,16 @@ python3 harness/scripts/harness.py check-ready --job harness/examples/event-job.
 
 예제는 승인 전 초안이므로 `validate`는 통과하지만 `check-ready`는 실패하는 것이 정상입니다. 에이전트는 [AGENTS.md](AGENTS.md)와 [운영 스킬](skills/run-transit-channel/SKILL.md)부터 읽습니다. 스킬을 단독 복사하면 상대 경로가 끊기므로 저장소 구조를 유지하세요.
 
+## 처음 설치할 때 글꼴 준비
+
+GitHub에서 받은 저장소 폴더를 열고 Figma를 사용하는 컴퓨터에서 한 번 실행하세요. Python 3.9 이상이 필요합니다.
+
+| macOS 터미널 | Windows PowerShell |
+|---|---|
+| `python3 harness/scripts/setup_fonts.py` | `py -3 harness/scripts/setup_fonts.py` |
+
+세 굵기가 있으면 바로 끝납니다. 부족하면 **보유 파일 설치 / 제작사 페이지 열기 / 개인용 테스트 다운로드 / 건너뛰기** 중에서 고릅니다. 사용할 파일과 굵기를 확인한 뒤 OS 설치 창을 엽니다. `--check`를 붙이면 조회만 합니다. [폰트 출처와 설치 절차](harness/references/font-workflow.md)
+
 ## 제작·검수 기준
 
 - **Neulis Alt 유지:** Regular/Medium/Bold의 실제 로드를 확인합니다. 원격 환경에서 사용할 수 없으면 폰트가 설치된 Figma 데스크톱에서 작업합니다. 대체 폰트 자동 치환은 금지합니다.
