@@ -165,6 +165,19 @@ def validate_render_evidence(page, render, texts, rules, category):
             errors.append("layout:measured-content-height-or-bounds")
         elif any(not contains(box, n.get("bounds")) for n in slot_nodes):
             errors.append("layout:content-outside-container")
+    geometry = spec.get("geometry")
+    if geometry:
+        def matches_box(actual, key):
+            return bounds(actual) and all(abs(actual[k] - v) <= 0.5 for k, v in geometry[key].items())
+        if not matches_box(render.get("content_bounds"), "content"):
+            errors.append("track:content-geometry")
+        for key in ("title", "meta"):
+            slot = "items.0." + key
+            if slot in texts:
+                report = reported.get(slot)
+                node = nodes.get(report["node_id"], {}) if isinstance(report, dict) and isinstance(report.get("node_id"), str) else {}
+                if not matches_box(node.get("bounds"), key):
+                    errors.append("track:" + key + "-geometry")
     if page.get("poster_content"):
         box = render.get("poster_bounds")
         if (not contains(expected, box) or box["width"] != 700 or box["height"] != 937
@@ -202,6 +215,8 @@ def validate_render_evidence(page, render, texts, rules, category):
                     if (key == "support" and b["y"] < box["y"] + box["height"]
                             or key != "support" and b["y"] + b["height"] > box["y"]):
                         errors.append("element:title-rows-support-order")
+        if geometry and (not matches_box(box, "card") or not matches_box(e.get("artwork_bounds"), "artwork")):
+            errors.append("track:card-or-artwork-geometry")
         if e.get("kind") == "track-row" and (not e.get("artwork_node_id") or e.get("artwork_visible") is not True):
             errors.append("element:visible-artwork-required")
     visual = render.get("visual_review", {})
@@ -288,6 +303,16 @@ def validate_pages(job: dict) -> list[str]:
                     continue
                 if item_rule.get("artwork_required") and not item.get("artwork_ref"):
                     errors.append(f"{ip}.artwork_ref:required")
+                if pattern == "track-list" and render_required:
+                    source_id = item.get("source_id")
+                    verified = any(isinstance(s, dict) and s.get("id") == source_id
+                                   and s.get("checked") is True and s.get("locator") for s in job.get("sources", []))
+                    year = item.get("release_year", "")
+                    if (not source_id or not verified or not item.get("artist") or not item.get("album")
+                            or not isinstance(year, str) or len(year) != 4 or not year.isdecimal()
+                            or item.get("meta") != f"{item.get('artist')} · {year}"
+                            or str(item.get("artwork_ref", "")).startswith("draft:")):
+                        errors.append(f"{ip}:verified-release-and-artwork-required")
                 order = item.get("order")
                 if item_rule.get("order_required"):
                     if type(order) is not int or order < 1:

@@ -109,7 +109,7 @@ function captureFrame(frame, roles, fontCheck) {
     text_nodes: inventory, slots, header: roles.header,
     logo: {node_id:logo.id,effective_visible:visible(logo),bounds:relative(logo)},
     elements: (roles.elements || []).map(e => { const n=node(e.container_node_id); return {...e,bounds:relative(n),effective_visible:visible(n),
-      ...(e.artwork_node_id ? {artwork_visible:visible(node(e.artwork_node_id))} : {})}; }) };
+      ...(e.artwork_node_id ? {artwork_visible:visible(node(e.artwork_node_id)),artwork_bounds:relative(node(e.artwork_node_id))} : {})}; }) };
   if (roles.content) result.content_bounds = relative(node(roles.content));
   if (roles.poster) { const n=node(roles.poster); result.poster_bounds=relative(n);result.poster_size_mode=n.layoutSizingVertical; }
   // Do not fabricate visual_review. Add it only after looking at the final screenshot.

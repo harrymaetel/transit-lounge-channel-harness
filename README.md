@@ -18,6 +18,23 @@ python3 harness/scripts/harness.py check-ready --job harness/examples/event-job.
 
 예제는 승인 전 초안이므로 `validate`는 통과하지만 `check-ready`는 실패하는 것이 정상입니다. 에이전트는 [AGENTS.md](AGENTS.md)와 [운영 스킬](skills/run-transit-channel/SKILL.md)부터 읽습니다. 스킬을 단독 복사하면 상대 경로가 끊기므로 저장소 구조를 유지하세요.
 
+## Playlist 한 곡 카드
+
+에이전트에 “Playlist로 Ditto, NewJeans를 소개해 줘”처럼 곡명과 아티스트를 알려 주세요. 에이전트는 YouTube Music에서 음원과 앨범을 대조한 뒤 앨범아트, 정식 곡명, 아티스트, 해당 판본의 발매연도를 초안에 채웁니다. 여러 판본이 일치하면 앨범을 선택합니다.
+
+직접 실행할 때는 Python 3.12 가상환경에서 아래 예시를 사용하세요. Windows에서는 가상환경의 python.exe로 같은 스크립트를 실행할 수 있습니다.
+
+```sh
+python -m pip install ytmusicapi==1.12.3
+mkdir -p runs/my-playlist
+cp harness/examples/playlist-job.json runs/my-playlist/job.json
+python harness/scripts/playlist_lookup.py --job runs/my-playlist/job.json --page p03 --title "Ditto" --artist "NewJeans"
+```
+
+판본을 지정할 때는 명령 끝에 `--album "Ditto"`처럼 앨범명 또는 조회된 앨범 ID를 붙입니다. 이미지 파일은 작업 JSON 옆의 `artwork/`에, 앨범 링크와 이미지 출처는 작업 JSON에 보관합니다. Figma 제작 시 해당 파일을 이미지 채우기에 사용하고 제목·메타를 각각 별도 슬롯에 넣습니다. 여러 곡이면 Listening-Flow 페이지를 선곡 순서로 복제하고 고유 페이지 ID와 전체 카드 수를 갱신한 뒤 페이지마다 실행합니다. 기존 3곡 초안도 먼저 한 곡씩 나눕니다.
+
+조회 실패 시 초안을 보존합니다. 공식 앨범 페이지로 직접 대조한 경우 같은 필드에 출처를 기록할 수 있습니다. 발행 전 이미지 사용 범위는 별도로 확인합니다. 조회에는 비공식 클라이언트를 사용합니다. [ytmusicapi 문서](https://ytmusicapi.readthedocs.io/en/stable/)
+
 ## 처음 설치할 때 글꼴 준비
 
 GitHub에서 받은 저장소 폴더를 열고 Figma를 사용하는 컴퓨터에서 한 번 실행하세요. Python 3.9 이상이 필요합니다.
@@ -31,9 +48,9 @@ GitHub에서 받은 저장소 폴더를 열고 Figma를 사용하는 컴퓨터�
 ## 제작·검수 기준
 
 - **Neulis Alt 유지:** Regular/Medium/Bold의 실제 로드를 확인합니다. 원격 환경에서 사용할 수 없으면 폰트가 설치된 Figma 데스크톱에서 작업합니다. 대체 폰트 자동 치환은 금지합니다.
-- **레이아웃 유지:** 제목 → 주요 내용 → 보조문구를 분리합니다. 추천 대상은 둥근 카드, 프로그램은 번호 카드, 곡 순서는 앨범 이미지와 메타 정보가 있는 행으로 만듭니다. 헤더·로고·원본은 보호합니다.
+- **레이아웃 유지:** 제목 → 주요 내용 → 보조문구를 분리합니다. 추천 대상은 둥근 카드, 프로그램은 번호 카드, 곡 순서는 페이지당 앨범아트 한 장과 곡 정보가 있는 카드로 만듭니다. 헤더·로고·원본은 보호합니다.
 - **글자 수와 실제 줄 수:** NFC 기준으로 공백과 부호를 포함해 계산합니다. 줄바꿈은 글자 수에서 제외하고 빈 줄은 줄 수에 포함합니다. 프로그램 번호도 예산에 포함합니다. 실제 폰트·행간·HEIGHT·노드 높이와 원고 일치를 대조합니다.
-- **초과 시 페이지 추가:** 글씨를 줄이거나 말줄임으로 맞추지 않습니다. 슬롯 한도와 전체 콘텐츠 높이 860px를 함께 확인합니다. 카테고리별 기본 장수는 상한이 아닙니다.
+- **초과 시 페이지 추가:** 글씨를 줄이거나 말줄임으로 맞추지 않습니다. 슬롯 한도와 전체 콘텐츠 높이(기본 860px, 곡 소개 942px)를 함께 확인합니다. 카테고리별 기본 장수는 상한이 아닙니다.
 - **화면 검수:** 숨김, 클리핑, 헤더 누락, 프레임 축소는 측정값으로 검사하고 대비·얼굴 가림·이미지와 내용의 일치는 최종 화면에서 확인합니다.
 
 세부 기준은 [패턴 카탈로그](harness/references/pattern-catalog.json), [Figma 제작 규칙](harness/references/figma-production.md), [실측 렌더 계약](harness/references/render-evidence.md), [폰트 워크플로](harness/references/font-workflow.md)에 있습니다.

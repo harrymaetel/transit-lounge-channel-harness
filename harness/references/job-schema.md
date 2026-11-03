@@ -27,8 +27,8 @@
 - content는 해당 패턴의 slots만 허용한다. 빈 선택 슬롯은 생략한다.
 - asset_ref는 표지·사진 카드의 실제 작업 자산 참조다. 초안 플레이스홀더는 발행 전 교체·권리 검수한다.
 - 프로그램 항목: kind=program-pill, order=1부터 연속, text는 번호를 제외한 원고. 표시 번호는 검사가 더해 센다.
-- 곡 항목: kind=track-row, artwork_ref, title, meta(아티스트·연도). 다른 패턴의 항목과 섞지 않는다.
-- 항목은 페이지당 최대 3개. 초과하면 페이지를 늘린다. deliverables[].cards는 실제 pages 길이와 일치해야 한다. 기준안 장수를 강제하지 않는다.
+- 곡 항목: kind=track-row, artwork_ref, title, meta(아티스트 · 연도). design_ready부터 artist, release_year(네 자리 문자열), album, 검증된 source_id, 실제 artwork_ref가 필요하다. 다른 패턴의 항목과 섞지 않는다.
+- 곡 카드는 페이지당 1개, 추천·프로그램은 페이지당 최대 3개. 초과하면 페이지를 늘린다. deliverables[].cards는 실제 pages 길이와 일치해야 한다. 기준안 장수를 강제하지 않는다.
 - 원고 상한은 catalog의 max_chars/max_lines. 원고의 줄 수 검사는 자동 줄바꿈을 추측하지 않는다.
 
 ## design_ready 이후 render 근거
