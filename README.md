@@ -4,6 +4,8 @@
 
 ## 시작하기
 
+브랜치·외부 기기 작업은 [관리 지침](docs/branch-management.md)을 따릅니다. [작업 요청](https://github.com/harrymaetel/transit-lounge-channel-harness/issues/new/choose)을 등록하고 [공용 운영 로그](https://github.com/harrymaetel/transit-lounge-channel-harness/issues/1)에서 변경 이력을 확인하세요. GitHub 이벤트는 자동 기록하고, 이 대화에서는 요청 시 최신 현황을 조회해 요약합니다.
+
 새 콘텐츠를 요청하면 에이전트가 카테고리 한 가지를 선택받고, 해당 카테고리의 추가 질문과 사진 첨부를 안내합니다. 이미 알려 준 내용은 다음 요청에도 이어 씁니다. [제작 접수 절차](harness/subskills/content-intake.md)
 
 Python 3.9 이상으로 저장소 루트에서 실행합니다. 검사기는 외부 패키지가 필요하지 않습니다.
