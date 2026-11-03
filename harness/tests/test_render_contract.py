@@ -159,8 +159,10 @@ class RenderRegressionTests(unittest.TestCase):
 
     def test_track_artwork_and_row_geometry(self):
         page={'pattern':'track-list'}
+        self.r['content_bounds']=dict(x=48,y=204,width=984,height=942)
         self.r['elements']=[dict(kind='track-row',container_node_id='row',effective_visible=True,
-            bounds=dict(x=48,y=450,width=984,height=192),artwork_node_id='art',artwork_visible=True)]
+            bounds=dict(x=256,y=400,width=568,height=746),artwork_node_id='art',artwork_visible=True,
+            artwork_bounds=dict(x=280,y=424,width=520,height=520))]
         self.assertEqual(MODULE.validate_render_evidence(page,self.r,{},MODULE.catalog(),'event'),[])
         self.r['elements'][0]['artwork_visible']=False
         self.assertIn('element:visible-artwork-required',MODULE.validate_render_evidence(page,self.r,{},MODULE.catalog(),'event'))

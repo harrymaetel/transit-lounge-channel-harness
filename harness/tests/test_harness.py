@@ -118,12 +118,14 @@ class PageContractTests(unittest.TestCase):
         del job["pages"][2]["items"][0]["artwork_ref"]
         self.assertTrue(any("artwork_ref:required" in e for e in MODULE.validate(job)))
 
-    def test_track_support_requires_room_or_another_page(self):
+    def test_one_track_per_page(self):
         job = sample("playlist")
         page = job["pages"][2]
-        page["content"]["support"] = "이어지는 음악도 들어보세요"
-        self.assertTrue(any("content-height-896>860" in e for e in MODULE.validate(job)))
+        page["items"].append(page["items"][0].copy())
+        self.assertTrue(any("split-page-at-1" in e for e in MODULE.validate(job)))
         page["items"].pop()
+        job["pages"].insert(3, dict(page, id="p03-b"))
+        job["deliverables"][0]["cards"] += 1
         self.assertEqual(MODULE.validate(job), [])
 
     def test_unicode_spaces_and_blank_lines(self):

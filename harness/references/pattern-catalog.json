@@ -314,20 +314,12 @@
           "font_style": "Bold",
           "required": true,
           "line_height_percent": 150
-        },
-        "support": {
-          "max_chars": 25,
-          "max_lines": 1,
-          "font_size": 40,
-          "font_style": "Medium",
-          "required": false,
-          "line_height_percent": 150
         }
       },
       "items": {
         "kind": "track-row",
         "min": 1,
-        "max": 3,
+        "max": 1,
         "fields": {
           "title": {
             "max_chars": 24,
@@ -347,12 +339,47 @@
           }
         },
         "artwork_required": true,
-        "row_height": 192,
-        "row_gap": 12
+        "row_height": 746,
+        "row_gap": 0
       },
-      "content_height_budget": 860,
+      "content_height_budget": 942,
       "eyebrow_title_gap": 12,
-      "block_gap": 40
+      "block_gap": 40,
+      "source_node": "2980:10306",
+      "component_node": "2980:10358",
+      "observed_at": "2026-11-04",
+      "geometry": {
+        "content": {
+          "x": 48,
+          "y": 204,
+          "width": 984,
+          "height": 942
+        },
+        "card": {
+          "x": 256,
+          "y": 400,
+          "width": 568,
+          "height": 746
+        },
+        "artwork": {
+          "x": 280,
+          "y": 424,
+          "width": 520,
+          "height": 520
+        },
+        "title": {
+          "x": 280,
+          "y": 984,
+          "width": 520,
+          "height": 72
+        },
+        "meta": {
+          "x": 280,
+          "y": 1056,
+          "width": 520,
+          "height": 42
+        }
+      }
     },
     "listening-prompt": {
       "layout": "title-body-support",
@@ -678,7 +705,7 @@
       {
         "role": "Listening-Flow",
         "pattern": "track-list",
-        "source_node": "2944:244"
+        "source_node": "2980:10306"
       },
       {
         "role": "Listening-Prompt",
