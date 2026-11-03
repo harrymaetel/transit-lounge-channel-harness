@@ -1,0 +1,26 @@
+name: 작업 요청 / 외부 기기 인계
+description: 브랜치 작업과 기기 간 인계에 필요한 최소 정보를 기록합니다.
+title: "[작업] "
+body:
+  - type: textarea
+    id: outcome
+    attributes:
+      label: 원하는 결과와 완료 기준
+      description: 공개 저장소입니다. 비밀값, 개인 정보, 원문 자료를 넣지 마세요.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: 요청 경로 / 기기 별칭
+      placeholder: 예) 노트북, 데스크톱, 모바일 — 개인 식별 정보 제외
+  - type: input
+    id: branch
+    attributes:
+      label: 기존 브랜치 / PR
+      description: 이어서 할 작업이 있을 때만 입력합니다.
+  - type: textarea
+    id: handoff
+    attributes:
+      label: 인계 정보
+      description: 현재 상태, 마지막 커밋 SHA, 검증 결과, 다음 행동을 적습니다.
