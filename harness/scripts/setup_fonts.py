@@ -144,6 +144,8 @@ def setup(check_only=False):
 
 
 if __name__ == "__main__":
+    if not sys.stdout.isatty():
+        sys.stdout.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="확인만 하고 종료")
     try:
