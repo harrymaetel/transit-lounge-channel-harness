@@ -8,7 +8,7 @@ description: Plan, produce, review, and improve Transit Lounge channel content w
 Use this skill for Transit Lounge channel planning, copy, design, QA, publishing preparation, performance review, or Levelup proposals.
 
 1. Read `../../AGENTS.md` and `../../harness/brand-core.md`.
-2. Create a job using `../../harness/references/job-schema.md` (new carousel jobs use schema 1.2).
+2. For a new content request, follow [콘텐츠 제작 접수](../../harness/subskills/content-intake.md) before creating the job. Reuse the saved brief and update changed answers or photos on follow-up. Create a job using `../../harness/references/job-schema.md` (new carousel jobs use schema 1.2).
 3. Run `python3 ../../harness/scripts/harness.py route --job <job.json>` from this skill directory, then read the returned `load_sequence` relative to `../../harness/`. Use `page_templates` as an extensible sequence, not a fixed page count.
 4. Keep planning, production, visual QA, user approval, and external publishing as separate gates.
 5. Use Jev only for ambiguity, conflicting QA, or retrospective hypothesis selection. If unavailable, continue with local rules and human review.

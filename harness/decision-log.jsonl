@@ -3,3 +3,4 @@
 {"id":"2026-10-30-budget","status":"P","target":"copy-budgets","choice":"관찰 글자 수와 운영 상한을 분리하고 렌더로 검증","why":"글자 수만으로 실제 수용량을 확정할 수 없어 초기 예산 정의"}
 {"id":"2026-10-31-render","status":"H","target":"render-qa","choice":"실측 높이·숨김·헤더·캔버스·사진 대비를 검수 게이트로 반영","why":"33장 예시 제작의 수정 사항을 다음 제작 규칙에 반영하라는 사용자 지시"}
 {"id":"2026-10-31-font","status":"H","target":"font-workflow","choice":"Neulis Alt 실제 로드 및 데스크톱 제작 경로 기록","why":"대체 서체 없이 제작한 결과와 재발 방지 요청 반영"}
+{"id":"2026-11-03-intake","status":"H","target":"content-intake","choice":"새 콘텐츠는 6개 카테고리 중 하나를 선택받고 카테고리별 추가 질문 1~5개와 사용할 사진을 받는다","why":"다음 에이전트가 제작 전에 입력을 받아 콘텐츠에 반영하도록 요청"}

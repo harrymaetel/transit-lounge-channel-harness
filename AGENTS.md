@@ -7,7 +7,7 @@
 ## 로딩 순서
 
 1. 현재 사용자 요청과 이 문서를 읽는다.
-2. `harness/brand-core.md`와 해당 카테고리 규칙만 읽는다.
+2. 새 콘텐츠를 요청받으면 [제작 접수](harness/subskills/content-intake.md)부터 진행한다. 카테고리 한 가지를 선택받고 해당 카테고리 질문과 사진을 받아 작업 브리프를 갱신한다. 이어지는 요청에서는 같은 브리프를 사용한다. 브랜드 기준은 `harness/brand-core.md`를 읽는다.
 3. `python3 harness/scripts/harness.py route --job <job.json>`이 반환한 `load_sequence`만 순서대로 읽는다.
 4. 제작 후 `validate`, `check-ready`를 실행한다.
 
