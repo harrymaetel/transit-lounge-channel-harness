@@ -8,20 +8,26 @@
   "audience": "트랜짓 라운지 프로그램에 관심 있는 사람",
   "message": "행사의 핵심 정보와 참여 이유를 전달한다",
   "source_ids": [
-    "brief"
+    "brief",
+    "event-venue"
   ],
   "sources": [
     {
       "id": "brief",
       "locator": "replace-with-real-source",
       "checked": false
+    },
+    {
+      "id": "event-venue",
+      "locator": "https://www.figma.com/design/oloM9zVU0XkiwIYXcIT23R/Transit-Lounge?node-id=3049-694",
+      "checked": true
     }
   ],
   "deliverables": [
     {
       "kind": "carousel",
       "ratio": "4:5",
-      "cards": 6
+      "cards": 7
     }
   ],
   "approvals": {
@@ -61,7 +67,7 @@
       "pattern": "event-info",
       "content": {
         "title": "기록을 나누는 시간",
-        "body": "일시 · 장소 확인 후 입력",
+        "body": "일시 확인 후 입력",
         "support": "가격 · 포함 항목 확인 후 입력"
       }
     },
@@ -116,6 +122,17 @@
     },
     {
       "id": "p06",
+      "role": "Venue-Guide",
+      "pattern": "venue-guide",
+      "content": {
+        "eyebrow": "오시는 길",
+        "title": "역삼역 도보 7분 거리, 트랜짓라운지",
+        "support": "주차 지원이 어려우니, 대중 교통을 이용해주세요"
+      },
+      "asset_ref": "https://www.figma.com/design/oloM9zVU0XkiwIYXcIT23R/Transit-Lounge?node-id=3049-826"
+    },
+    {
+      "id": "p07",
       "role": "CTA",
       "pattern": "cta",
       "content": {

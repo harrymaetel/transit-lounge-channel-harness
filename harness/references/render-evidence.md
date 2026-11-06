@@ -27,3 +27,5 @@
 - `visual_review`: `{evidence:"최종 화면 근거",contrast:true,faces_clear:true,asset_matches_copy:true,logo_clear:true}`. 해당 문제가 없음을 직접 확인한 뒤에만 true. 사진 없는 카드의 faces_clear는 해당 없음으로 확인한다.
 
 `validate`는 제출된 근거의 내부 일관성을 검사한다. 실시간 Figma 접속이나 진위를 증명하지 않는다. 원본/스크린샷/검사 시점은 실행 기록에 보관하고, 수정된 카드의 이전 근거를 그대로 복사하지 않는다.
+
+Event의 `venue-guide`에는 `render.asset`도 필요하다. `node_id`, 카드 기준 `bounds`, `effective_visible`, `clipped`, `ref`, `source_ref`를 실제 지도에서 수집한다. `ref`는 페이지의 asset_ref와 같고 source_ref는 카탈로그에 등록된 해당 시안 지도다. 제목·지도·보조문구·로고 간 겹침과 지도 영역을 검사한다. 지도 내부 글씨는 [공통 장소 안내 규칙](event-venue.md)에 따라 시각 검수한다.

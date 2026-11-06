@@ -18,6 +18,10 @@ python3 harness/scripts/harness.py check-ready --job harness/examples/event-job.
 
 예제는 승인 전 초안이므로 `validate`는 통과하지만 `check-ready`는 실패하는 것이 정상입니다. 에이전트는 [AGENTS.md](AGENTS.md)와 [운영 스킬](skills/run-transit-channel/SKILL.md)부터 읽습니다. 스킬을 단독 복사하면 상대 경로가 끊기므로 저장소 구조를 유지하세요.
 
+## Event 장소 안내
+
+Event는 트랜짓 라운지 개최를 기본으로 합니다. 접수에서는 행사명·소개, 날짜·시간, 추천 대상, 프로그램, 참가비·신청 방법을 받습니다. 장소와 주차 안내는 공통 지도 페이지에 자동으로 채웁니다. 기본 구성은 7장이며 프로그램 다음에 장소 안내, 마지막에 신청 CTA를 둡니다. [공통 장소 안내 규칙](harness/references/event-venue.md)
+
 ## Playlist 한 곡 카드
 
 에이전트에 “Playlist로 Ditto, NewJeans를 소개해 줘”처럼 곡명과 아티스트를 알려 주세요. 에이전트는 YouTube Music에서 음원과 앨범을 대조한 뒤 앨범아트, 정식 곡명, 아티스트, 해당 판본의 발매연도를 초안에 채웁니다. 여러 판본이 일치하면 앨범을 선택합니다.

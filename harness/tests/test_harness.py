@@ -82,7 +82,7 @@ class PageContractTests(unittest.TestCase):
             self.assertFalse(MODULE.readiness(job)["ready"])
 
     def test_six_category_routes_and_refs_exist(self):
-        for category, count in (("event", 6), ("playlist", 5), ("link-mingle", 8),
+        for category, count in (("event", 7), ("playlist", 5), ("link-mingle", 8),
                                 ("interview", 5), ("moments", 4), ("lines", 4)):
             job = valid_job()
             job["category"] = category
@@ -91,6 +91,17 @@ class PageContractTests(unittest.TestCase):
             self.assertFalse(result["page_count_is_limit"])
             for path in result["load_sequence"]:
                 self.assertTrue((SCRIPT.parents[1] / path).is_file(), path)
+
+    def test_event_venue_copy_and_map_are_required(self):
+        job = sample("event")
+        venue = job["pages"][-2]
+        self.assertEqual(venue["pattern"], "venue-guide")
+        self.assertEqual(job["pages"][-1]["role"], "CTA")
+        self.assertIn("references/event-venue.md", MODULE.route(job)["load_sequence"])
+        venue["content"]["support"] = "주차 가능"
+        self.assertTrue(any("approved-venue-copy-required" in e for e in MODULE.validate(job)))
+        del venue["asset_ref"]
+        self.assertTrue(any("asset_ref:required" in e for e in MODULE.validate(job)))
 
     def test_flat_list_cannot_replace_structured_items(self):
         job = sample()
@@ -102,13 +113,13 @@ class PageContractTests(unittest.TestCase):
         job["pages"][3]["items"] *= 2
         self.assertTrue(any("split-page-at-3" in e for e in MODULE.validate(job)))
 
-    def test_more_than_six_pages_allowed_and_program_numbers_continue(self):
+    def test_more_than_seven_pages_allowed_and_program_numbers_continue(self):
         job = sample()
         page = copy.deepcopy(job["pages"][4])
         page["id"] = "p05b"
         page["items"] = [{"kind": "program-pill", "order": 4, "text": "기록 돌아보기"}]
         job["pages"].insert(5, page)
-        job["deliverables"][0]["cards"] = 7
+        job["deliverables"][0]["cards"] = len(job["pages"])
         self.assertEqual(MODULE.validate(job), [])
         page["items"][0]["order"] = 1
         self.assertIn("pages:program-order-must-continue-across-pages", MODULE.validate(job))
