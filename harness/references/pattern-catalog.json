@@ -738,7 +738,7 @@
     },
     "calendar-overview": {
       "layout": "calendar-grid-agenda",
-      "source_node": "3049:126",
+      "source_node": "3119:1739",
       "brand_header_required": false,
       "font_styles": [
         "Regular",
@@ -776,7 +776,7 @@
       "items": {
         "kind": "calendar-event",
         "min": 1,
-        "max": 2,
+        "max": 4,
         "fields": {
           "schedule": {
             "max_chars": 25,
@@ -1056,7 +1056,7 @@
       {
         "role": "Month-Overview",
         "pattern": "calendar-overview",
-        "source_node": "3049:126"
+        "source_node": "3119:1739"
       },
       {
         "role": "Event-Text",
@@ -1094,7 +1094,7 @@
   },
   "calendar": {
     "short_title_max_chars": 20,
-    "agenda_items_per_page": 2,
+    "agenda_items_per_page": 4,
     "first_weekday": "SUN",
     "reference_section": "3049:77"
   }

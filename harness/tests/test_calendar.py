@@ -26,7 +26,7 @@ class CalendarTests(unittest.TestCase):
         self.data['events'][0]['support']=''
         self.data['cta_content']={'title':'11월의 일정을 저장하고,','body':'트랜짓 라운지에서 만나요.'}
         self.job['pages']=build_pages(self.data,RULES)
-        self.assertNotIn('support',self.job['pages'][3]['content'])
+        self.assertNotIn('support',self.job['pages'][2]['content'])
         self.assertEqual(self.job['pages'][-1]['content'],self.data['cta_content'])
         self.assertEqual(MODULE.validate(self.job),[])
 
@@ -55,14 +55,30 @@ class CalendarTests(unittest.TestCase):
 
     def test_variants_are_alternatives_and_cta_always_last(self):
         pages=build_pages(self.data,RULES)
-        self.assertEqual([p['pattern'] for p in pages[3:-1]],['calendar-event-text','calendar-event-photo','calendar-event-poster'])
+        self.assertEqual([p['pattern'] for p in pages[2:-1]],['calendar-event-text','calendar-event-photo','calendar-event-poster'])
         self.assertEqual(pages[-1]['role'],'CTA')
-        self.assertEqual(len(pages),7)
-        for count in (1,2,4,7):
+        self.assertEqual(len(pages),6)
+        for count in (1,2,3,4,5,8,9):
             self.data['events']=[dict(self.data['events'][0],id=f'e{i}') for i in range(count)]
             pages=build_pages(self.data,RULES)
-            self.assertEqual(len(pages),2+(count+1)//2+count)
+            self.assertEqual(len(pages),2+(count+3)//4+count)
             self.assertEqual([p['id'] for p in pages],[f'p{i:02}' for i in range(1,len(pages)+1)])
+
+    def test_four_event_capacity_and_fifth_event_split(self):
+        self.assertEqual(RULES['calendar']['agenda_items_per_page'],4)
+        self.assertEqual(RULES['patterns']['calendar-overview']['items']['max'],4)
+        for count, sizes in ((4,[4]),(5,[4,1]),(8,[4,4]),(9,[4,4,1])):
+            self.data['events']=[dict(self.data['events'][0],id=f'e{i}',featured=False) for i in range(count)]
+            self.job['pages']=build_pages(self.data,RULES)
+            for d in self.job['deliverables']:
+                if d.get('kind')=='carousel':d['cards']=len(self.job['pages'])
+            overviews=[p for p in self.job['pages'] if p['role']=='Month-Overview']
+            self.assertEqual([len(p['items']) for p in overviews],sizes)
+            self.assertEqual([item['event_id'] for p in overviews for item in p['items']],[f'e{i}' for i in range(count)])
+            self.assertTrue(all(p['grid']==overviews[0]['grid'] for p in overviews))
+            self.assertEqual(MODULE.validate(self.job),[])
+        self.job['pages'][1]['items'].append(deepcopy(self.job['pages'][2]['items'][0]))
+        self.assertTrue(any('split-page-at-4' in error for error in MODULE.validate(self.job)))
 
     def test_featured_filters_details_not_calendar_or_list(self):
         self.data['events'][1]['featured']=False
@@ -82,7 +98,7 @@ class CalendarTests(unittest.TestCase):
         e['short_title_approved']=True
         pages=build_pages(self.data,RULES)
         self.assertEqual(pages[1]['items'][0]['title'],e['short_title'])
-        self.assertEqual(pages[3]['content']['title'],e['short_title'])
+        self.assertEqual(pages[2]['content']['title'],e['short_title'])
 
     def test_invalid_date_time_duplicate_id_or_missing_photo_fail(self):
         for change in ({'date':'2026-11-31'},{'date':'2026-12-01'}, {'end':'18:00'}, {'start':'25:00'}, {'id':'mingle'}, {'image_kind':'portrait'}):
@@ -94,7 +110,7 @@ class CalendarTests(unittest.TestCase):
         self.data['events'][1]['detail_layout']='poster'
         pages=build_pages(self.data,RULES)
         self.assertEqual(pages[1]['items'][0]['schedule'],'11/13 FRI ALL DAY')
-        self.assertEqual(pages[4]['pattern'],'calendar-event-poster')
+        self.assertEqual(pages[3]['pattern'],'calendar-event-poster')
 
     def test_stale_pages_do_not_validate(self):
         for field in ('grid','items'):
