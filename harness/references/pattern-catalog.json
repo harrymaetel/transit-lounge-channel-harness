@@ -656,6 +656,69 @@
         }
       },
       "content_height_budget": 860
+    },
+    "venue-guide": {
+      "layout": "venue-map",
+      "source_node": "3049:694",
+      "observed_at": "2026-11-06",
+      "slots": {
+        "eyebrow": {
+          "max_chars": 5,
+          "max_lines": 1,
+          "font_size": 40,
+          "font_style": "Medium",
+          "required": true,
+          "line_height_percent": 150
+        },
+        "title": {
+          "max_chars": 20,
+          "max_lines": 1,
+          "font_size": 56,
+          "font_style": "Bold",
+          "required": true,
+          "line_height_percent": 150
+        },
+        "support": {
+          "max_chars": 26,
+          "max_lines": 1,
+          "font_size": 40,
+          "font_style": "Medium",
+          "required": true,
+          "line_height_percent": 150
+        }
+      },
+      "fixed_content": {
+        "eyebrow": "오시는 길",
+        "title": "역삼역 도보 7분 거리, 트랜짓라운지",
+        "support": "주차 지원이 어려우니, 대중 교통을 이용해주세요"
+      },
+      "asset_required": true,
+      "asset_sources": [
+        "https://www.figma.com/design/oloM9zVU0XkiwIYXcIT23R/Transit-Lounge?node-id=3049-826",
+        "https://www.figma.com/design/oloM9zVU0XkiwIYXcIT23R/Transit-Lounge?node-id=3090-299",
+        "https://www.figma.com/design/oloM9zVU0XkiwIYXcIT23R/Transit-Lounge?node-id=3090-461",
+        "https://www.figma.com/design/oloM9zVU0XkiwIYXcIT23R/Transit-Lounge?node-id=3090-542"
+      ],
+      "asset_bounds": {
+        "x": 48,
+        "y": 461,
+        "width": 984,
+        "height": 524
+      },
+      "content_height_budget": 820,
+      "fixed_layout_height": 616,
+      "venue": {
+        "name": "트랜짓 라운지",
+        "address": "테헤란로34길 21-8 · 2층",
+        "station": "역삼역 2호선 1번 출구",
+        "walking_minutes": 7
+      },
+      "variants": {
+        "S01": "3049:694",
+        "S02": "3049:727",
+        "S03": "3049:760",
+        "S04": "3049:793"
+      }
     }
   },
   "categories": {
@@ -684,6 +747,11 @@
         "role": "Program",
         "pattern": "program-steps",
         "source_node": "2944:69"
+      },
+      {
+        "role": "Venue-Guide",
+        "pattern": "venue-guide",
+        "source_node": "3049:694"
       },
       {
         "role": "CTA",

@@ -70,3 +70,7 @@ qa는 structural/content/visual/release 외에 캐러셀의 typography/element_l
 ## v1.2 추가 계약
 
 위 render 예시는 기본 필드 설명이다. 새 작업은 [render-evidence.md](render-evidence.md)의 실측 필드를 함께 기록해야 한다. 포스터 원고는 poster_content, 역할별 한도는 catalog.artwork_slots를 사용한다. 구버전 기록은 보존하되 check-ready에는 current_render_contract가 필요하다.
+
+## Event 공통 장소 페이지
+
+`venue-guide`의 content는 카탈로그 `fixed_content`와 일치해야 하고 지도 `asset_ref`가 필요하다. 새 Event 초안은 `event-job.json`의 7장 구성을 기준으로 한다. 장소 정보는 `venue-guide.venue`에서 가져온다. 제작 시 지도 자산과 역할별 실측 근거를 연결한다. [세부 규칙](event-venue.md)

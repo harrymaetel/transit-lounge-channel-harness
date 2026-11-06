@@ -178,6 +178,18 @@ def validate_render_evidence(page, render, texts, rules, category):
                 node = nodes.get(report["node_id"], {}) if isinstance(report, dict) and isinstance(report.get("node_id"), str) else {}
                 if not matches_box(node.get("bounds"), key):
                     errors.append("track:" + key + "-geometry")
+    if "asset_bounds" in spec:
+        asset = render.get("asset", {})
+        if not isinstance(asset, dict):
+            asset = {}
+        box = asset.get("bounds")
+        if (not bounds(box) or any(abs(box[k] - v) > 0.5 for k, v in spec["asset_bounds"].items())
+                or not asset.get("node_id") or asset.get("effective_visible") is not True
+                or asset.get("clipped") is not False or asset.get("ref") != page.get("asset_ref")
+                or asset.get("source_ref") not in spec["asset_sources"]):
+            errors.append("venue:map-evidence-required")
+        if any(overlaps(box, n.get("bounds")) for n in slot_nodes) or overlaps(box, logo.get("bounds")):
+            errors.append("venue:map-overlaps-copy-or-logo")
     if page.get("poster_content"):
         box = render.get("poster_bounds")
         if (not contains(expected, box) or box["width"] != 700 or box["height"] != 937
@@ -264,6 +276,8 @@ def validate_pages(job: dict) -> list[str]:
             continue
         if set(content) - set(spec["slots"]):
             errors.append(f"{prefix}.content:unknown-slot")
+        if "fixed_content" in spec and content != spec["fixed_content"]:
+            errors.append(f"{prefix}.content:approved-venue-copy-required")
         texts = {}
         for key, limit in spec["slots"].items():
             value = content.get(key, "")
@@ -394,6 +408,10 @@ def validate_pages(job: dict) -> list[str]:
                 height += len(items) * item_rule["row_height"] + max(0, len(items) - 1) * item_rule["row_gap"]
                 if "support" in texts:
                     height += spec["block_gap"]
+            elif "fixed_layout_height" in spec:
+                height = spec["fixed_layout_height"] + sum(
+                    (measured.get(k) or text_metrics(v)[1]) * lim["font_size"] * lim["line_height_percent"] / 100
+                    for k, (v, lim) in texts.items())
             else:
                 height = sum((measured.get(k) or text_metrics(v)[1]) * lim["font_size"] * 1.5
                              for k, (v, lim) in texts.items()) + 40 * max(0, len(texts) - 1)
@@ -464,6 +482,8 @@ def route(job: dict) -> dict:
         sequence.insert(sequence.index("agents/copy.md"), f"subskills/categories/{category}.md")
     if ambiguous:
         sequence[0:0] = ["agents/jev.md", "subskills/jev-routing.md"]
+    if category == "event":
+        sequence.insert(sequence.index("agents/copy.md"), "references/event-venue.md")
     if category in {"event", "playlist"}:
         sequence.insert(sequence.index("agents/qa.md"), "references/element-patterns.md")
     rules = catalog()

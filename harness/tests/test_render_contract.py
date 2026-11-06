@@ -157,6 +157,32 @@ class RenderRegressionTests(unittest.TestCase):
         self.job['state']='draft';self.job['pages']=[page]
         self.fails('artwork.title:chars-25>24')
 
+    def test_venue_map_must_match_source_and_measured_bounds(self):
+        rule = MODULE.catalog()["patterns"]["venue-guide"]
+        page = {"pattern": "venue-guide", "asset_ref": "local-map.png"}
+        self.r["content_bounds"] = dict(x=48,y=265,width=984,height=820)
+        self.r["asset"] = dict(node_id="map",bounds=rule["asset_bounds"].copy(),
+            effective_visible=True,clipped=False,ref="local-map.png",source_ref=rule["asset_sources"][0])
+        self.assertEqual(MODULE.validate_render_evidence(page,self.r,{},MODULE.catalog(),"event"),[])
+        for key,value in (("effective_visible",False),("source_ref","unknown"),("ref","other.png")):
+            bad = copy.deepcopy(self.r)
+            bad["asset"][key] = value
+            self.assertIn("venue:map-evidence-required",
+                MODULE.validate_render_evidence(page,bad,{},MODULE.catalog(),"event"))
+        self.r["asset"]["bounds"]["height"] = 100
+        self.assertIn("venue:map-evidence-required",
+            MODULE.validate_render_evidence(page,self.r,{},MODULE.catalog(),"event"))
+
+    def test_venue_map_cannot_overlap_copy(self):
+        rule = MODULE.catalog()["patterns"]["venue-guide"]
+        page = {"pattern": "venue-guide", "asset_ref": "local-map.png"}
+        self.r["asset"] = dict(node_id="map",bounds=rule["asset_bounds"].copy(),
+            effective_visible=True,clipped=False,ref="local-map.png",source_ref=rule["asset_sources"][0])
+        self.n["bounds"]["y"] = 500
+        texts = {"title": (self.n["text"],rule["slots"]["title"])}
+        self.assertIn("venue:map-overlaps-copy-or-logo",
+            MODULE.validate_render_evidence(page,self.r,texts,MODULE.catalog(),"event"))
+
     def test_track_artwork_and_row_geometry(self):
         page={'pattern':'track-list'}
         self.r['content_bounds']=dict(x=48,y=204,width=984,height=942)
