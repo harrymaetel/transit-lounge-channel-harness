@@ -823,7 +823,7 @@
           "max_lines": 2,
           "font_size": 40,
           "font_style": "Medium",
-          "required": true,
+          "required": false,
           "line_height_percent": 150
         }
       },
@@ -854,7 +854,7 @@
           "max_lines": 2,
           "font_size": 40,
           "font_style": "Medium",
-          "required": true,
+          "required": false,
           "line_height_percent": 150
         }
       },

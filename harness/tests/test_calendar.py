@@ -22,6 +22,14 @@ class CalendarTests(unittest.TestCase):
         for path in route['load_sequence']:
             self.assertTrue((MODULE.ROOT/path).is_file(),path)
 
+    def test_user_can_omit_support_and_supply_exact_cta(self):
+        self.data['events'][0]['support']=''
+        self.data['cta_content']={'title':'11월의 일정을 저장하고,','body':'트랜짓 라운지에서 만나요.'}
+        self.job['pages']=build_pages(self.data,RULES)
+        self.assertNotIn('support',self.job['pages'][3]['content'])
+        self.assertEqual(self.job['pages'][-1]['content'],self.data['cta_content'])
+        self.assertEqual(MODULE.validate(self.job),[])
+
     def test_line_parser_checks_actual_weekday_and_month(self):
         line='11/13 FRI 19:30 – 22:00 : 북토크 워크숍'
         self.assertEqual(parse_lines(line,2026,11)[0]['date'],'2026-11-13')

@@ -106,6 +106,8 @@ def build_pages(data, rules):
         page = dict(role='Event-'+layout.title(), pattern='calendar-event-'+layout, event_id=event['id'], month_label=f'{month}월 행사 안내',
                     content=dict(title=event['short_title'], body=event['schedule'],
                                  support=event.get('support', '참가 안내 확인 후 입력')))
+        if event.get('support') == '':
+            page['content'].pop('support', None)
         if layout != 'text':
             page['asset_ref'] = event['asset_ref']
         if layout == 'poster':
@@ -114,6 +116,8 @@ def build_pages(data, rules):
     pages.append(dict(role='CTA', pattern='cta', content=dict(
         title='이번 달, 트랜짓 라운지에서 만나요', body='관심 있는 행사의 일정과\n신청 방법을 확인해 주세요.',
         support=data.get('cta_text', '신청 경로 확인 후 입력'))))
+    if 'cta_content' in data:
+        pages[-1]['content'] = deepcopy(data['cta_content'])
     for i, page in enumerate(pages, 1):
         page['id'] = f'p{i:02}'
     return pages
@@ -135,7 +139,7 @@ def validate_calendar(job, rules):
         if not job.get('calendar', {}).get('cta_text'):
             errors.append('calendar:confirmed-cta-required')
         for event in job['calendar']['events']:
-            if event.get('featured', True) and event.get('image_kind', 'none') != 'poster' and not event.get('support'):
+            if event.get('featured', True) and event.get('image_kind', 'none') != 'poster' and 'support' not in event:
                 errors.append('calendar:confirmed-event-support-required')
         for page in pages:
             if str(page.get('asset_ref', '')).startswith('draft:'):
