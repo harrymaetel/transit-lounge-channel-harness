@@ -1,6 +1,6 @@
 # 트랜짓 라운지 채널 운영 하네스
 
-버전 **0.3**. 트랜짓 라운지의 기획 → 카피 → 디자인 → QA → 사용자 승인 → 발행 준비 → 분석 → Levelup을 관리합니다. Event, Playlist, Link & Mingle, Interview, Moments, Lines의 페이지 패턴을 조건부로 불러옵니다.
+버전 **0.3**. 트랜짓 라운지의 기획 → 카피 → 디자인 → QA → 사용자 승인 → 발행 준비 → 분석 → Levelup을 관리합니다. Event, Playlist, Link & Mingle, Interview, Moments, Lines, Transit Calendar의 페이지 패턴을 조건부로 불러옵니다.
 
 ## 시작하기
 
@@ -92,3 +92,14 @@ GitHub Actions에서도 같은 검사를 실행합니다. 테스트용 합성 �
 `check-ready`는 실제 게시 권한을 부여하지 않습니다. 게시·예약·외부 계정 수정은 사용자 승인과 연결 도구·대상·권한 확인이 필요합니다. 브랜드 기준 변경은 사용자 확정과 Decision Log에 근거합니다.
 
 폰트 파일·사진·비밀값·로컬 실행 기록과 일회성 Figma 수정 스크립트는 저장소에 포함하지 않습니다. 로컬 `runs/`의 과거 증거는 그대로 보관하며 새 제작에 승인값으로 복사하지 않습니다.
+
+## Transit Calendar 월별 행사 안내
+
+대상 연도·월, 행사 목록, 소개할 행사, **필수 표지 이미지**, 선택 행사 사진·포스터와 CTA를 받습니다. 요일·달력·목록은 같은 날짜 데이터로 만들고, 긴 행사명은 축약 동의를 받습니다. 이미지 없는 행사는 텍스트형, 인물 사진은 사진형, 포스터는 포스터형을 추천합니다. 행사 수에 따라 페이지를 늘리고 CTA는 마지막에 둡니다.
+
+```sh
+python3 harness/scripts/calendar_content.py --job harness/examples/calendar-job.json --output /tmp/calendar-draft.json
+python3 harness/scripts/harness.py validate --job /tmp/calendar-draft.json
+```
+
+`--output`은 새 경로를 지정합니다. `--lines 일정.txt`는 calendar.events가 비어 있는 초안에만 사용합니다. 생성기는 초안 데이터를 만들며 Figma 편집과 실측 QA는 제작 에이전트가 수행합니다. [질문](harness/subskills/categories/calendar.md) · [제작·검수 규칙](harness/references/calendar-workflow.md)

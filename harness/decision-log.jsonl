@@ -6,3 +6,4 @@
 {"id":"2026-11-03-intake","status":"H","target":"content-intake","choice":"새 콘텐츠는 6개 카테고리 중 하나를 선택받고 카테고리별 추가 질문 1~5개와 사용할 사진을 받는다","why":"다음 에이전트가 제작 전에 입력을 받아 콘텐츠에 반영하도록 요청"}
 {"id":"2026-11-04-playlist","status":"H","target":"playlist","choice":"한 페이지 한 곡, 앨범아트 아래 곡명과 아티스트·연도, YouTube Music 우선 조회","why":"사용자가 새 Figma 구조와 곡명·아티스트 기반 자동 채우기를 지정"}
 {"id":"2026-11-06-event-venue","status":"H","target":"event","choice":"장소·주차 질문 생략, 공통 장소 안내 P06과 CTA P07 반영","why":"트랜짓 라운지 단일 개최와 사용자 추가 장소 안내 페이지 반영 요청"}
+{"id": "2026-11-06-calendar", "status": "H", "target": "calendar", "choice": "필수 표지·달력과 일정 목록·이미지별 상세 선택·마지막 CTA", "why": "사용자 요청: 영문 요일, 긴 행사명 축약 확인, 행사 수에 따른 가변 장수"}

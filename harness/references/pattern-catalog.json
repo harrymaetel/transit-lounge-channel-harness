@@ -719,6 +719,154 @@
         "S03": "3049:760",
         "S04": "3049:793"
       }
+    },
+    "calendar-cover": {
+      "layout": "calendar-cover",
+      "source_node": "3090:1238",
+      "asset_required": true,
+      "brand_header_required": false,
+      "slots": {
+        "title": {
+          "max_chars": 10,
+          "max_lines": 1,
+          "font_size": 40,
+          "font_style": "Medium",
+          "required": true,
+          "line_height_percent": 120
+        }
+      }
+    },
+    "calendar-overview": {
+      "layout": "calendar-grid-agenda",
+      "source_node": "3049:126",
+      "brand_header_required": false,
+      "font_styles": [
+        "Regular",
+        "Medium",
+        "Bold",
+        "Light",
+        "Light Italic"
+      ],
+      "slots": {
+        "year": {
+          "max_chars": 4,
+          "max_lines": 1,
+          "font_size": 56,
+          "font_style": "Light Italic",
+          "required": true,
+          "line_height_percent": 150
+        },
+        "month": {
+          "max_chars": 9,
+          "max_lines": 1,
+          "font_size": 80,
+          "font_style": "Bold",
+          "required": true,
+          "line_height_percent": 150
+        },
+        "month_number": {
+          "max_chars": 2,
+          "max_lines": 1,
+          "font_size": 164,
+          "font_style": "Regular",
+          "required": true,
+          "line_height_percent": 100
+        }
+      },
+      "items": {
+        "kind": "calendar-event",
+        "min": 1,
+        "max": 2,
+        "fields": {
+          "schedule": {
+            "max_chars": 25,
+            "max_lines": 1,
+            "font_size": 36,
+            "font_style": "Regular",
+            "required": true,
+            "line_height_percent": 150
+          },
+          "title": {
+            "max_chars": 20,
+            "max_lines": 1,
+            "font_size": 36,
+            "font_style": "Regular",
+            "required": true,
+            "line_height_percent": 150
+          }
+        },
+        "row_height": 54,
+        "row_gap": 8
+      }
+    },
+    "calendar-event-text": {
+      "layout": "information-stack",
+      "slots": {
+        "title": {
+          "max_chars": 28,
+          "max_lines": 2,
+          "font_size": 56,
+          "font_style": "Bold",
+          "required": true,
+          "line_height_percent": 150
+        },
+        "body": {
+          "max_chars": 60,
+          "max_lines": 2,
+          "font_size": 48,
+          "font_style": "Medium",
+          "required": true,
+          "line_height_percent": 150
+        },
+        "support": {
+          "max_chars": 50,
+          "max_lines": 2,
+          "font_size": 40,
+          "font_style": "Medium",
+          "required": true,
+          "line_height_percent": 150
+        }
+      },
+      "content_height_budget": 512,
+      "source_node": "3049:151"
+    },
+    "calendar-event-photo": {
+      "layout": "calendar-photo-info",
+      "slots": {
+        "title": {
+          "max_chars": 28,
+          "max_lines": 2,
+          "font_size": 56,
+          "font_style": "Bold",
+          "required": true,
+          "line_height_percent": 150
+        },
+        "body": {
+          "max_chars": 60,
+          "max_lines": 2,
+          "font_size": 48,
+          "font_style": "Medium",
+          "required": true,
+          "line_height_percent": 150
+        },
+        "support": {
+          "max_chars": 50,
+          "max_lines": 2,
+          "font_size": 40,
+          "font_style": "Medium",
+          "required": true,
+          "line_height_percent": 150
+        }
+      },
+      "content_height_budget": 512,
+      "source_node": "3090:1000",
+      "asset_required": true
+    },
+    "calendar-event-poster": {
+      "layout": "poster",
+      "asset_required": true,
+      "slots": {},
+      "source_node": "3090:1285"
     }
   },
   "categories": {
@@ -898,6 +1046,41 @@
         "pattern": "cta",
         "source_node": "2944:619"
       }
+    ],
+    "calendar": [
+      {
+        "role": "Cover-Image",
+        "pattern": "calendar-cover",
+        "source_node": "3090:1238"
+      },
+      {
+        "role": "Month-Overview",
+        "pattern": "calendar-overview",
+        "source_node": "3049:126"
+      },
+      {
+        "role": "Event-Text",
+        "pattern": "calendar-event-text",
+        "source_node": "3049:151",
+        "selection": "one-per-featured-event"
+      },
+      {
+        "role": "Event-Photo",
+        "pattern": "calendar-event-photo",
+        "source_node": "3090:1000",
+        "selection": "one-per-featured-event"
+      },
+      {
+        "role": "Event-Poster",
+        "pattern": "calendar-event-poster",
+        "source_node": "3090:1285",
+        "selection": "one-per-featured-event"
+      },
+      {
+        "role": "CTA",
+        "pattern": "cta",
+        "source_node": "3049:330"
+      }
     ]
   },
   "category_labels": {
@@ -906,6 +1089,13 @@
     "link-mingle": "Link & Mingle",
     "interview": "Interview",
     "moments": "Moments",
-    "lines": "Lines"
+    "lines": "Lines",
+    "calendar": "Calendar"
+  },
+  "calendar": {
+    "short_title_max_chars": 20,
+    "agenda_items_per_page": 2,
+    "first_weekday": "SUN",
+    "reference_section": "3049:77"
   }
 }

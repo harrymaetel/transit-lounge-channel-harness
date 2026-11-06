@@ -16,6 +16,7 @@ jobs:
           python3 harness/scripts/harness.py validate-cards
           python3 harness/scripts/harness.py validate --job harness/examples/event-job.json
           python3 harness/scripts/harness.py validate --job harness/examples/playlist-job.json
+          python3 harness/scripts/harness.py validate --job harness/examples/calendar-job.json
   font-setup:
     strategy:
       matrix:

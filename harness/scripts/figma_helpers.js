@@ -1,6 +1,5 @@
 /* Native desktop Figma Plugin API helpers. No network, file writes or auto-run. */
-async function loadNeulis(figma, texts = []) {
-  const styles = ['Regular', 'Medium', 'Bold'];
+async function loadNeulis(figma, texts = [], styles = ['Regular', 'Medium', 'Bold']) {
   const available = await figma.listAvailableFontsAsync();
   for (const style of styles) {
     if (!available.some(f => f.fontName.family === 'Neulis Alt' && f.fontName.style === style)) {
@@ -20,7 +19,7 @@ async function loadNeulis(figma, texts = []) {
 
 async function setText(figma, node, value, rule, width) {
   if (node.type !== 'TEXT' || !Number.isFinite(width) || width <= 0) throw new Error('TEXT and fixed width required');
-  if (!['Regular', 'Medium', 'Bold'].includes(rule.font_style)) throw new Error('Unsupported Neulis style');
+  if (!['Regular', 'Medium', 'Bold', 'Light', 'Light Italic'].includes(rule.font_style)) throw new Error('Unsupported Neulis style');
   for (const s of node.getStyledTextSegments(['fontName'])) await figma.loadFontAsync(s.fontName);
   await figma.loadFontAsync({ family: 'Neulis Alt', style: rule.font_style });
   node.fontName = { family: 'Neulis Alt', style: rule.font_style };
@@ -120,4 +119,25 @@ function captureFrame(frame, roles, fontCheck) {
   // Do not fabricate visual_review. Add it only after looking at the final screenshot.
   return result;
 }
-if (typeof module !== 'undefined') module.exports = {loadNeulis,setText,replaceContent,fixPosterSize,captureFrame};
+function captureCalendarGrid(frame, weekdayNodes, cellNodes) {
+  const origin = frame.absoluteBoundingBox;
+  if (weekdayNodes.length !== 7 || !cellNodes.length || cellNodes.length % 7) throw new Error('Incomplete calendar grid');
+  const descendants = new Set(frame.findAll(() => true).map(n => n.id));
+  const check = n => { if (!descendants.has(n.id)) throw new Error('Calendar node outside frame'); };
+  weekdayNodes.forEach(check);
+  return { weekday_node_ids: weekdayNodes.map(n => n.id), cells: cellNodes.map(n => {
+    check(n);
+    const texts = n.type === 'TEXT' ? [n] : n.findAll(t => t.type === 'TEXT');
+    if (texts.length > 1) throw new Error('Ambiguous date cell');
+    const t = texts[0], value = t ? t.characters.trim() : '';
+    if (value && !/^([1-9]|[12][0-9]|3[01])$/.test(value)) throw new Error('Invalid date cell');
+    const b = n.absoluteBoundingBox;
+    let visible = true;
+    for(let a=n; a && a.type !== 'DOCUMENT'; a=a.parent) if(a.visible === false || a.opacity === 0) visible=false;
+    if(value && (n.type !== 'INSTANCE' || !['true','false'].includes(n.variantProperties?.selected))) throw new Error('Use calendar date component variants');
+    return { node_id:n.id, text_node_id:t?.id, day:value ? Number(value) : 0,
+      highlighted:value ? n.variantProperties.selected === 'true' : false, effective_visible:visible,
+      bounds:{x:b.x-origin.x,y:b.y-origin.y,width:b.width,height:b.height} };
+  }) };
+}
+if (typeof module !== 'undefined') module.exports = {loadNeulis,setText,replaceContent,fixPosterSize,captureFrame,captureCalendarGrid};

@@ -111,3 +111,7 @@
 
 각 원본 프레임 ID는 [pattern-catalog.json](pattern-catalog.json)의 categories에 있다. 현재 Lines S02/S03의 원문·성찰 프레임은 교체됐으므로 오래된 ID를 재사용하지 말고 현재 이름으로 다시 찾는다.
 
+
+## Transit Calendar 추가
+
+표지·달력·세 가지 행사 상세 대안·CTA는 [calendar-workflow.md](calendar-workflow.md)를 따른다. 달력의 추가 폰트 Light/Light Italic, 실제 날짜 셀 측정, 월 라벨과 이미지 자산 근거를 함께 검사한다. 6장은 레퍼런스 종류이며 결과 장수 제한이 아니다.

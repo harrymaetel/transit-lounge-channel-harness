@@ -63,7 +63,7 @@ qa는 structural/content/visual/release 외에 캐러셀의 typography/element_l
 
 ## 상태와 근거
 
-카테고리: event, playlist, link-mingle, interview, moments, lines, other. other는 분류 전 초안이며 확정 카테고리/패턴이 생긴 뒤 제작한다.
+카테고리: event, playlist, link-mingle, interview, moments, lines, calendar, other. other는 분류 전 초안이며 확정 카테고리/패턴이 생긴 뒤 제작한다.
 
 상태 순서는 AGENTS.md를 따른다. user_approved는 실제 사용자가 결과를 승인했을 때만 기록한다. published는 실제 외부 발행 확인이 있을 때만 기록한다. 승인·QA 값을 예시에서 그대로 복사하지 않는다.
 
@@ -74,3 +74,9 @@ qa는 structural/content/visual/release 외에 캐러셀의 typography/element_l
 ## Event 공통 장소 페이지
 
 `venue-guide`의 content는 카탈로그 `fixed_content`와 일치해야 하고 지도 `asset_ref`가 필요하다. 새 Event 초안은 `event-job.json`의 7장 구성을 기준으로 한다. 장소 정보는 `venue-guide.venue`에서 가져온다. 제작 시 지도 자산과 역할별 실측 근거를 연결한다. [세부 규칙](event-venue.md)
+
+## Calendar 계약
+
+[calendar-job.json](../examples/calendar-job.json)과 [월별 제작 규칙](calendar-workflow.md)을 따른다. `calendar`에는 year/month 정수, cover_asset_ref, cta_text, events 배열을 넣는다. events에는 고유 id, ISO date, start/end(HH:MM) 또는 all_day=true, title, 선택 short_title/short_title_approved, featured, support, image_kind(none/portrait/photo/poster), asset_ref, 선택 detail_layout(text/photo/poster)을 기록한다. featured 기본값은 true다.
+
+calendar_content.py로 페이지를 생성한다. pages는 calendar 데이터에서 나온 내용과 일치해야 하며 편집은 원본 calendar 필드에서 한다. 새 초안으로 재생성하면 기존 render/QA/승인은 제거된다. 완료 상태에서는 draft: 자산과 미확정 CTA·상세 보조정보를 허용하지 않는다. `validate`는 자료 계약 검증이며 실제 업로드 파일·이미지 권리·화면 검수는 제작과 QA에서 수행한다.
