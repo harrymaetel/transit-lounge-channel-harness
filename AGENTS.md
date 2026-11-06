@@ -66,3 +66,7 @@ Figma `Transit Lounge`의 지정 노드와 승인된 브랜드 문서를 우선�
 ## 2026-11-06 Event 장소 안내
 
 Event는 트랜짓 라운지에서 개최한다. 접수 시 장소·주차를 묻지 않고 `harness/references/event-venue.md`의 공통 문구와 지도를 채운다. 기본 7장 중 P06은 Venue-Guide, P07은 CTA다. 페이지 추가 시 번호와 카드 수를 함께 갱신한다.
+
+## 2026-11-06 Transit Calendar
+
+일곱 번째 카테고리 `calendar`는 필수 표지 이미지, 월간 달력·목록, 행사별 선택형 상세, 마지막 CTA로 만든다. P03~P05는 대안이며 고정 장수가 아니다. 연도·날짜로 영문 요일을 계산하고 긴 행사명 축약은 사용자 확인을 받는다. `harness/references/calendar-workflow.md`를 조건부 로드한다. 달력만 Neulis Alt Light/Light Italic을 추가 로드하며 대체 서체는 금지한다.

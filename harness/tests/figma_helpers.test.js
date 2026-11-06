@@ -64,3 +64,22 @@ test('mixed line height cannot be reported as measured line count',()=>{
  const {frame,n}=frameFixture();n.getStyledTextSegments=()=>[48,40].map(s=>({fontName:font(),fontSize:s,lineHeight:{unit:'PERCENT',value:150}}));
  assert.equal(captureFrame(frame,{slots:{body:'t'},logo:'logo'},{}).slots.body.lines,null);
 });
+
+test('calendar font preflight requires Light and Light Italic explicitly',async()=>{
+ const extra=[...styles,'Light','Light Italic'];
+ await assert.rejects(loadNeulis(api(),[],extra),/Light/);
+ const f=api();f.listAvailableFontsAsync=async()=>extra.map(s=>({fontName:font(s)}));
+ assert.deepEqual((await loadNeulis(f,[],extra)).loaded_styles,extra);
+});
+test('calendar evidence reads actual text and variants and rejects foreign nodes',()=>{
+ const {captureCalendarGrid}=require('../scripts/figma_helpers');
+ const origin={x:100,y:200,width:1080,height:1350};
+ const weekdays=['SUN','MON','TUE','WED','THU','FRI','SAT'].map((characters,i)=>({id:'w'+i,characters}));
+ const cells=Array.from({length:7},(_,i)=>({id:'c'+i,type:'INSTANCE',variantProperties:{selected:i===3?'true':'false'},
+   absoluteBoundingBox:{x:200+i*120,y:500,width:120,height:100},findAll:()=>[{id:'d'+i,type:'TEXT',characters:String(i+1)}]}));
+ const frame={absoluteBoundingBox:origin,findAll:()=>[...weekdays,...cells]};
+ const r=captureCalendarGrid(frame,weekdays,cells);
+ assert.equal(r.cells[3].day,4);assert.equal(r.cells[3].highlighted,true);assert.equal(r.cells[0].bounds.x,100);
+ cells[0].variantProperties={};assert.throws(()=>captureCalendarGrid(frame,weekdays,cells),/variants/);
+ assert.throws(()=>captureCalendarGrid(frame,weekdays,[{id:'foreign'},...cells.slice(1)]),/outside/);
+});

@@ -27,3 +27,7 @@
 ## 재사용 코드
 
 `harness/scripts/figma_helpers.js`는 실제 실행 시에만 복사/로드하는 네이티브 함수 모음이다. setText는 최종 HEIGHT, replaceContent는 원본/루트/보호 노드 검사를 수행한다. captureFrame은 지정 역할 ID를 읽어 render 근거를 만들며 visual_review를 자동 통과시키지 않는다. 먼저 공식 Figma 스킬과 해당 환경의 API 지침을 로드한다. runs의 일회성 build/repair 코드와 실측 증거는 새 제작 스크립트나 승인값으로 재사용하지 않는다.
+
+## Transit Calendar 추가
+
+표지·달력·세 가지 행사 상세 대안·CTA는 [calendar-workflow.md](calendar-workflow.md)를 따른다. 달력의 추가 폰트 Light/Light Italic, 실제 날짜 셀 측정, 월 라벨과 이미지 자산 근거를 함께 검사한다. 6장은 레퍼런스 종류이며 결과 장수 제한이 아니다.

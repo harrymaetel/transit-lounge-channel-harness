@@ -13,12 +13,16 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 AGENTS = ROOT / "agents"
+# Also support importlib-based callers that do not add the script directory.
+if str(ROOT / "scripts") not in sys.path:
+    sys.path.insert(0, str(ROOT / "scripts"))
+from calendar_content import validate_calendar
 
 STATES = [
     "draft", "classified", "strategy_ready", "copy_ready", "design_ready",
     "qa_passed", "user_approved", "publish_ready", "published", "analyzed", "leveled_up",
 ]
-CATEGORIES = {"event", "playlist", "link-mingle", "interview", "moments", "lines", "other"}
+CATEGORIES = {"event", "playlist", "link-mingle", "interview", "moments", "lines", "calendar", "other"}
 SLUG = re.compile(r"^[a-z0-9][a-z0-9_-]{0,79}$")
 
 
@@ -64,6 +68,8 @@ def overlaps(a, b):
 def validate_render_evidence(page, render, texts, rules, category):
     """v1.2: verify measured geometry and complete text inventory, not just PASS flags."""
     errors = []
+    spec = rules["patterns"][page["pattern"]]
+    rules = dict(rules, font_styles=spec.get("font_styles", rules["font_styles"]))
     canvas = render.get("canvas", {})
     expected = dict(x=0, y=0, **rules["canvas"])
     if not bounds(canvas) or any(canvas.get(k) != v for k, v in expected.items()):
@@ -131,13 +137,14 @@ def validate_render_evidence(page, render, texts, rules, category):
     header = render.get("header", {})
     if not isinstance(header, dict):
         header = {}
-    header_ids = [header.get("brand_node_id"), header.get("category_node_id")]
-    if len(set(str(x) for x in header_ids)) != 2:
-        errors.append("header:distinct-brand-and-category-required")
-    for nid, label in zip(header_ids, ["Transit", rules["category_labels"].get(category)]):
-        n = nodes.get(nid) if isinstance(nid, str) else None
-        if not n or n.get("text") != label or n.get("effective_visible") is not True:
-            errors.append("header:missing-or-wrong-label")
+    if spec.get("brand_header_required", True):
+        header_ids = [header.get("brand_node_id"), header.get("category_node_id")]
+        if len(set(str(x) for x in header_ids)) != 2:
+            errors.append("header:distinct-brand-and-category-required")
+        for nid, label in zip(header_ids, ["Transit", rules["category_labels"].get(category)]):
+            n = nodes.get(nid) if isinstance(nid, str) else None
+            if not n or n.get("text") != label or n.get("effective_visible") is not True:
+                errors.append("header:missing-or-wrong-label")
     logo = render.get("logo", {})
     if not isinstance(logo, dict):
         logo = {}
@@ -152,7 +159,13 @@ def validate_render_evidence(page, render, texts, rules, category):
     for i, a in enumerate(slot_nodes):
         for b in slot_nodes[i + 1:]:
             if overlaps(a.get("bounds"), b.get("bounds")):
-                errors.append("layout:content-slots-overlap")
+                # The reference's year/month line boxes overlap by 16 px; glyphs do not.
+                pair = {a.get("node_id"), b.get("node_id")}
+                month_pair = {reported.get(k, {}).get("node_id") for k in ("year", "month")}
+                ab, bb = a["bounds"], b["bounds"]
+                depth = min(ab["y"]+ab["height"], bb["y"]+bb["height"])-max(ab["y"], bb["y"])
+                if not (page["pattern"] == "calendar-overview" and pair == month_pair and depth <= 16.5):
+                    errors.append("layout:content-slots-overlap")
     spec = rules["patterns"][page["pattern"]]
     ordered = [reported.get(k, {}).get("node_id") for k in ("eyebrow", "title", "body", "support")
                if k in texts and isinstance(reported.get(k), dict)]
@@ -190,6 +203,52 @@ def validate_render_evidence(page, render, texts, rules, category):
             errors.append("venue:map-evidence-required")
         if any(overlaps(box, n.get("bounds")) for n in slot_nodes) or overlaps(box, logo.get("bounds")):
             errors.append("venue:map-overlaps-copy-or-logo")
+    if page["pattern"].startswith("calendar-event-"):
+        month = nodes.get(header.get("month_node_id"), {})
+        if month.get("text") != page.get("month_label"):
+            errors.append("calendar:month-label-mismatch")
+    if page["pattern"] == "calendar-overview":
+        grid = render.get("calendar_grid", {})
+        expected_grid = page.get("grid", {})
+        measured_cells = grid.get("cells", []) if isinstance(grid, dict) else []
+        weekday_ids = grid.get("weekday_node_ids", []) if isinstance(grid, dict) else []
+        if (not isinstance(weekday_ids, list) or len(weekday_ids) != 7
+                or [nodes.get(n, {}).get("text") for n in weekday_ids] != expected_grid.get("weekdays")):
+            errors.append("calendar:measured-weekdays-required")
+        if (not isinstance(grid, dict) or not isinstance(measured_cells, list)
+                or len(measured_cells) != len(expected_grid.get("cells", []))):
+            errors.append("calendar:measured-grid-required")
+        else:
+            ids = set()
+            for index, (actual, wanted) in enumerate(zip(measured_cells, expected_grid.get("cells", []))):
+                if not isinstance(actual, dict):
+                    errors.append("calendar:measured-date-or-highlight-mismatch")
+                    continue
+                nid = actual.get("node_id")
+                box = actual.get("bounds")
+                text = nodes.get(actual.get("text_node_id"), {})
+                if (actual.get("day") != wanted["day"] or actual.get("highlighted") != bool(wanted["event_ids"])
+                        or not nid or nid in ids or not contains(expected, box) or actual.get("effective_visible") is not True
+                        or (wanted["day"] and text.get("text") != str(wanted["day"]))
+                        or (not wanted["day"] and text.get("text", "") != "")):
+                    errors.append("calendar:measured-date-or-highlight-mismatch")
+                ids.add(nid)
+                if bounds(box):
+                    col, row = index % 7, index // 7
+                    # Sun-first columns and 4–6 week rows in the observed grid region.
+                    if (abs(box["x"]-(99.428+col*126.857)) > 1
+                            or abs(box["y"]-(275+row*expected_grid["row_height"])) > 1
+                            or abs(box["height"]-expected_grid["row_height"]) > 1 or abs(box["width"]-120) > 1):
+                        errors.append("calendar:cell-position-mismatch")
+    if page["pattern"] in ("calendar-cover", "calendar-event-photo", "calendar-event-poster"):
+        asset = render.get("asset", {})
+        box = asset.get("bounds") if isinstance(asset, dict) else None
+        size = {"calendar-cover": (800,1071), "calendar-event-photo": (1080,1350), "calendar-event-poster": (700,937)}[page["pattern"]]
+        if (not isinstance(asset, dict) or asset.get("ref") != page.get("asset_ref")
+                or not asset.get("node_id") or asset.get("effective_visible") is not True
+                or asset.get("clipped") is not False or not contains(expected, box)
+                or (box["width"],box["height"]) != size):
+            errors.append("calendar:image-evidence-or-size-required")
     if page.get("poster_content"):
         box = render.get("poster_bounds")
         if (not contains(expected, box) or box["width"] != 700 or box["height"] != 937
@@ -365,7 +424,7 @@ def validate_pages(job: dict) -> list[str]:
                 errors.append(f"{prefix}.render:font-runs-required")
                 runs = []
             if any(not isinstance(r, dict) or r.get("family") != "Neulis Alt"
-                   or r.get("style") not in rules["font_styles"] for r in runs):
+                   or r.get("style") not in spec.get("font_styles", rules["font_styles"]) for r in runs):
                 errors.append(f"{prefix}.render:neulis-alt-required")
             observed = render.get("slots", {})
             if not isinstance(observed, dict):
@@ -458,6 +517,8 @@ def validate(job: dict) -> list[str]:
         if not isinstance(job.get(name, {}), dict):
             errors.append(f"{name}:must-be-object")
     errors.extend(validate_pages(job))
+    if job.get("category") == "calendar":
+        errors.extend(validate_calendar(job, catalog()))
     return errors
 
 
@@ -482,6 +543,8 @@ def route(job: dict) -> dict:
         sequence.insert(sequence.index("agents/copy.md"), f"subskills/categories/{category}.md")
     if ambiguous:
         sequence[0:0] = ["agents/jev.md", "subskills/jev-routing.md"]
+    if category == "calendar":
+        sequence.insert(sequence.index("agents/copy.md"), "references/calendar-workflow.md")
     if category == "event":
         sequence.insert(sequence.index("agents/copy.md"), "references/event-venue.md")
     if category in {"event", "playlist"}:
