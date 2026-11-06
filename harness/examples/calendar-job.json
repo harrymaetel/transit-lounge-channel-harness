@@ -21,7 +21,7 @@
     {
       "kind": "carousel",
       "ratio": "4:5",
-      "cards": 7
+      "cards": 6
     }
   ],
   "approvals": {
@@ -227,179 +227,7 @@
           "event_id": "mingle",
           "schedule": "11/20 FRI 19:00 – 21:00",
           "title": "링크앤밍글"
-        }
-      ],
-      "id": "p02"
-    },
-    {
-      "role": "Month-Overview",
-      "pattern": "calendar-overview",
-      "content": {
-        "year": "2026",
-        "month": "November",
-        "month_number": "11"
-      },
-      "grid": {
-        "weekdays": [
-          "SUN",
-          "MON",
-          "TUE",
-          "WED",
-          "THU",
-          "FRI",
-          "SAT"
-        ],
-        "cells": [
-          {
-            "day": 1,
-            "event_ids": []
-          },
-          {
-            "day": 2,
-            "event_ids": []
-          },
-          {
-            "day": 3,
-            "event_ids": []
-          },
-          {
-            "day": 4,
-            "event_ids": []
-          },
-          {
-            "day": 5,
-            "event_ids": []
-          },
-          {
-            "day": 6,
-            "event_ids": []
-          },
-          {
-            "day": 7,
-            "event_ids": []
-          },
-          {
-            "day": 8,
-            "event_ids": []
-          },
-          {
-            "day": 9,
-            "event_ids": []
-          },
-          {
-            "day": 10,
-            "event_ids": []
-          },
-          {
-            "day": 11,
-            "event_ids": []
-          },
-          {
-            "day": 12,
-            "event_ids": []
-          },
-          {
-            "day": 13,
-            "event_ids": [
-              "book"
-            ]
-          },
-          {
-            "day": 14,
-            "event_ids": []
-          },
-          {
-            "day": 15,
-            "event_ids": []
-          },
-          {
-            "day": 16,
-            "event_ids": []
-          },
-          {
-            "day": 17,
-            "event_ids": []
-          },
-          {
-            "day": 18,
-            "event_ids": []
-          },
-          {
-            "day": 19,
-            "event_ids": []
-          },
-          {
-            "day": 20,
-            "event_ids": [
-              "mingle"
-            ]
-          },
-          {
-            "day": 21,
-            "event_ids": []
-          },
-          {
-            "day": 22,
-            "event_ids": []
-          },
-          {
-            "day": 23,
-            "event_ids": []
-          },
-          {
-            "day": 24,
-            "event_ids": []
-          },
-          {
-            "day": 25,
-            "event_ids": [
-              "music"
-            ]
-          },
-          {
-            "day": 26,
-            "event_ids": []
-          },
-          {
-            "day": 27,
-            "event_ids": []
-          },
-          {
-            "day": 28,
-            "event_ids": []
-          },
-          {
-            "day": 29,
-            "event_ids": []
-          },
-          {
-            "day": 30,
-            "event_ids": []
-          },
-          {
-            "day": 0,
-            "event_ids": []
-          },
-          {
-            "day": 0,
-            "event_ids": []
-          },
-          {
-            "day": 0,
-            "event_ids": []
-          },
-          {
-            "day": 0,
-            "event_ids": []
-          },
-          {
-            "day": 0,
-            "event_ids": []
-          }
-        ],
-        "row_height": 120
-      },
-      "items": [
+        },
         {
           "kind": "calendar-event",
           "event_id": "music",
@@ -407,7 +235,7 @@
           "title": "음악 감상회"
         }
       ],
-      "id": "p03"
+      "id": "p02"
     },
     {
       "role": "Event-Text",
@@ -419,7 +247,7 @@
         "body": "11/13 FRI 19:30 – 22:00",
         "support": "구성 예시 · 실제 프로그램 확인 필요"
       },
-      "id": "p04"
+      "id": "p03"
     },
     {
       "role": "Event-Photo",
@@ -432,7 +260,7 @@
         "support": "구성 예시 · 실제 프로그램 확인 필요"
       },
       "asset_ref": "draft:portrait-to-upload",
-      "id": "p05"
+      "id": "p04"
     },
     {
       "role": "Event-Poster",
@@ -441,7 +269,7 @@
       "month_label": "11월 행사 안내",
       "content": {},
       "asset_ref": "draft:poster-to-upload",
-      "id": "p06"
+      "id": "p05"
     },
     {
       "role": "CTA",
@@ -451,7 +279,7 @@
         "body": "관심 있는 행사의 일정과\n신청 방법을 확인해 주세요.",
         "support": "신청 경로 확인 후 입력"
       },
-      "id": "p07"
+      "id": "p06"
     }
   ],
   "calendar": {

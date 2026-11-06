@@ -103,3 +103,5 @@ python3 harness/scripts/harness.py validate --job /tmp/calendar-draft.json
 ```
 
 `--output`은 새 경로를 지정합니다. `--lines 일정.txt`는 calendar.events가 비어 있는 초안에만 사용합니다. 생성기는 초안 데이터를 만들며 Figma 편집과 실측 QA는 제작 에이전트가 수행합니다. [질문](harness/subskills/categories/calendar.md) · [제작·검수 규칙](harness/references/calendar-workflow.md)
+
+월간 달력·행사 목록은 **한 페이지당 최대 4개**를 담고, 5개부터 다음 Month-Overview 페이지로 나눈다. 각 달력은 월 전체 행사일을 표시하며 목록에는 모든 행사를 중복·누락 없이 한 번씩 싣는다. 행사별 상세는 선택한 행사당 1장, CTA는 마지막에 둔다.
