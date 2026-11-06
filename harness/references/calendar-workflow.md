@@ -49,3 +49,7 @@
 3. 모든 텍스트는 최종 폭 설정 뒤 HEIGHT로 측정한다. 연도·월의 줄 상자 16px 겹침은 레퍼런스 예외지만 실제 글리프 겹침은 시각 검수에서 금지한다. 다른 겹침은 통과시키지 않는다.
 4. captureFrame과 captureCalendarGrid로 실제 TEXT·요일·날짜·selected variant·셀 위치를 읽는다. render.calendar_grid에 측정 결과를 넣고, header.month_node_id와 이미지 roles.asset도 기록한다. 원고나 원하는 값을 측정값으로 복사하지 않는다.
 5. 폰트, 표지, 날짜 누락/중복, 같은 날 복수 행사, 요일·행사일 강조, 목록-상세 일치, 장수·마지막 CTA, 포스터 비율·사진 대비를 검사한다. 사용자 검토용 화면을 만든 다음 승인받는다. 글자 한도 통과만으로 QA를 완료하지 않는다.
+
+## 사용자 확정 카피 예외
+
+사용자가 상세를 행사명·일정만으로 요청하면 events[].support를 빈 문자열로 기록해 보조 슬롯을 생략한다. 없는 가격·소개를 채워 넣지 않는다. 마지막 CTA는 calendar.cta_content의 title/body/support 중 필요한 슬롯으로 직접 지정할 수 있다. cta_text에는 사용자 확정 원문을 보존한다.
